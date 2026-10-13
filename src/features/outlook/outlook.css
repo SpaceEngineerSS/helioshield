@@ -1,0 +1,46 @@
+.outlook__caption {
+  margin-bottom: var(--s3);
+}
+.outlook__days {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s3);
+}
+.outlook__day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.outlook__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 84px;
+  border-bottom: var(--rule) solid var(--rule-strong);
+  background: repeating-linear-gradient(to top, var(--grid-c) 0 1px, transparent 1px 25%);
+}
+.outlook__bar {
+  flex: 1;
+  min-height: 2px;
+  background: var(--c);
+  opacity: 0.85;
+}
+.outlook__bar--predicted {
+  background: transparent;
+  border: 1px solid var(--c);
+  border-bottom: 0;
+}
+.outlook__daylabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-micro);
+}
+.outlook__table {
+  margin-top: var(--s4);
+}
+.outlook__table th[scope='row'] {
+  font-weight: 400;
+  color: var(--text-2);
+  text-transform: none;
+  letter-spacing: 0;
+}

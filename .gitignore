@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 .env
 
-# Temp output files
-*-output.txt
-*-final.txt
+# Build and tool output
+dev-dist
+coverage
+*.tsbuildinfo
+.vercel

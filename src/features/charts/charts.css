@@ -1,0 +1,80 @@
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.chart {
+  margin: 0;
+  position: relative;
+}
+.chart__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  padding-left: 58px;
+  margin-bottom: -2px;
+}
+.chart__unit {
+  font-size: var(--fs-micro);
+  color: var(--text-3);
+}
+.charts__lead {
+  margin-top: var(--s3);
+  font-size: var(--fs-small);
+  max-width: 80ch;
+}
+
+.uchart {
+  width: 100%;
+  touch-action: pan-y;
+}
+
+/* uPlot overrides, to match the instrument look. */
+.uchart .uplot {
+  font-family: var(--font-mono);
+}
+.uchart .u-over {
+  cursor: crosshair;
+}
+.uchart .u-legend {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  margin: 0;
+  font-size: var(--fs-micro);
+  color: var(--text-2);
+  text-align: right;
+}
+.uchart .u-legend .u-series {
+  padding: 0 0 0 var(--s3);
+}
+.uchart .u-legend .u-series:first-child {
+  display: none;
+}
+.uchart .u-legend th {
+  font-weight: 400;
+}
+.uchart .u-legend .u-marker {
+  width: 10px;
+  height: 2px;
+  margin-right: 5px;
+  border: 0 !important;
+}
+.uchart .u-legend .u-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  min-width: 4ch;
+}
+.uchart .u-legend .u-off {
+  opacity: 0.4;
+}
+@media (max-width: 760px) {
+  .uchart .u-legend {
+    position: static;
+    text-align: left;
+    padding-left: 54px;
+  }
+  .chart__head {
+    padding-left: 54px;
+  }
+}

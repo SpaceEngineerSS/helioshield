@@ -1,0 +1,348 @@
+/* ── Panel ───────────────────────────────────────────────────────────────── */
+
+.panel {
+  position: relative;
+  min-width: 0;
+  background: var(--surface);
+  border: var(--rule) solid var(--rule-c);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Registration marks on the four corners, like a printed plate. */
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  border-color: var(--rule-strong);
+  border-style: solid;
+}
+.panel::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+.panel::after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+.panel__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border-bottom: var(--rule) solid var(--rule-c);
+  min-height: 44px;
+  flex-wrap: wrap;
+}
+.panel__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--sun);
+  letter-spacing: 0.04em;
+}
+.panel__title {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+.panel__meta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.panel__actions {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+}
+.panel__body {
+  padding: var(--s4);
+  flex: 1;
+  min-height: 0;
+}
+.panel__body--flush {
+  padding: 0;
+}
+
+/* ── Readout ─────────────────────────────────────────────────────────────── */
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.readout__value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-size: var(--fs-read);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.readout--hero .readout__value {
+  font-size: var(--fs-hero);
+  font-weight: 300;
+}
+.readout__unit {
+  font-size: var(--fs-small);
+  color: var(--text-3);
+  letter-spacing: 0;
+}
+.readout__sub {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  line-height: 1.35;
+}
+.readout__empty {
+  color: var(--text-3);
+}
+
+/* ── Level chip (G/R/S) ──────────────────────────────────────────────────── */
+
+.level {
+  --lv: var(--lv0);
+  display: inline-flex;
+  align-items: stretch;
+  border: var(--rule) solid var(--rule-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+.level__code {
+  padding: 2px 8px;
+  background: var(--lv);
+  color: var(--ink);
+  font-weight: 600;
+}
+.level__name {
+  padding: 2px 8px;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+/* ── Ruler (Kp gauge) ────────────────────────────────────────────────────── */
+
+.ruler {
+  position: relative;
+  height: 34px;
+  margin-top: var(--s2);
+}
+.ruler__band {
+  position: absolute;
+  top: 10px;
+  height: 3px;
+}
+.ruler__ticks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ruler__ticks line {
+  stroke: var(--rule-strong);
+}
+.ruler__ticks text {
+  fill: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.ruler__needle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 16px;
+}
+.ruler__needle::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 0;
+  border: 5px solid transparent;
+  border-top: 7px solid var(--sun);
+}
+.ruler__needle::after {
+  content: '';
+  position: absolute;
+  left: -0.5px;
+  top: 6px;
+  width: 1px;
+  height: 10px;
+  background: var(--sun);
+}
+.ruler__ghost::before {
+  border-top-color: var(--model);
+}
+.ruler__ghost::after {
+  background: var(--model);
+}
+
+/* ── Buttons and controls ────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  min-width: 36px;
+  padding: 0 var(--s3);
+  background: transparent;
+  border: var(--rule) solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition:
+    background var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    color var(--t-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover {
+  border-color: var(--text-2);
+  background: var(--surface-2);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn[aria-pressed='true'],
+.btn--on {
+  background: var(--sun);
+  border-color: var(--sun);
+  color: var(--sun-ink);
+}
+.btn--ghost {
+  border-color: transparent;
+}
+.btn--icon {
+  padding: 0;
+  width: 36px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (pointer: coarse) {
+  .btn {
+    min-height: var(--tap);
+    min-width: var(--tap);
+  }
+  .btn--icon {
+    width: var(--tap);
+  }
+}
+
+.seg {
+  display: inline-flex;
+  border: var(--rule) solid var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 2px;
+  gap: 2px;
+}
+.seg .btn {
+  border: 0;
+  min-height: 30px;
+}
+@media (pointer: coarse) {
+  .seg .btn {
+    min-height: 40px;
+  }
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* ── Misc ────────────────────────────────────────────────────────────────── */
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lv0);
+  flex: none;
+}
+.dot--live {
+  animation: pulse 2.4s var(--ease-in-out) infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--lv0) 60%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+}
+
+.empty {
+  padding: var(--s5) var(--s4);
+  color: var(--text-3);
+  font-size: var(--fs-small);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 0, var(--sunken) 50%, var(--surface-2) 100%);
+  background-size: 200% 100%;
+  animation: sweep 1.6s linear infinite;
+  border-radius: var(--radius);
+}
+@keyframes sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+.table th {
+  text-align: left;
+  font-weight: 500;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: var(--s2) var(--s3);
+  border-bottom: var(--rule) solid var(--rule-c);
+}
+.table td {
+  padding: var(--s2) var(--s3);
+  border-bottom: var(--rule) solid var(--rule-c);
+  vertical-align: top;
+}
+.table tr:last-child td {
+  border-bottom: 0;
+}

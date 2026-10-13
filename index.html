@@ -1,18 +1,54 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="night">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Helioshield — Research-grade space weather simulation dashboard. Visualizes solar wind, geomagnetic storms, aurora forecasts, and impact assessments using real-time NOAA/NASA data." />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>HelioShield — space weather from the instruments</title>
+    <meta
+      name="description"
+      content="Live solar wind, Kp, flares, CMEs and aurora chances from NOAA and NASA data, with replays of historic geomagnetic storms."
+    />
     <meta name="author" content="Mehmet Gümüş" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-    <title>Helioshield — Space Weather Simulation</title>
+    <meta name="theme-color" content="#0e0d0b" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="https://helioshield.vercel.app/" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HelioShield" />
+    <meta property="og:title" content="HelioShield — space weather from the instruments" />
+    <meta
+      property="og:description"
+      content="Live solar wind, Kp, flares, CMEs and aurora chances from NOAA and NASA data, with replays of historic geomagnetic storms."
+    />
+    <meta property="og:url" content="https://helioshield.vercel.app/" />
+    <meta property="og:image" content="https://helioshield.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+      /* First paint before the CSS bundle arrives: no white flash. */
+      html { background: #0e0d0b; color: #ede6d8; }
+      html[data-theme='paper'] { background: #ece5d6; color: #1c1915; }
+    </style>
+    <script>
+      try {
+        var p = JSON.parse(localStorage.getItem('helioshield:prefs') || '{}');
+        if (p.state && p.state.theme === 'paper') document.documentElement.dataset.theme = 'paper';
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding: 24px; font-family: sans-serif">
+        HelioShield needs JavaScript to fetch and draw live data from NOAA and NASA.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

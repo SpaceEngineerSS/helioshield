@@ -1,0 +1,118 @@
+/*
+ * HelioShield design tokens.
+ *
+ * The look is an observatory instrument panel: warm ink, paper-white type,
+ * hairline rules, and one solar amber accent. Two themes:
+ *   night  (default) ink background
+ *   paper            the same instrument printed on paper
+ *
+ * Colour is used for meaning (scale levels, direction), not decoration.
+ */
+
+:root {
+  /* type */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-note: 'Newsreader', Georgia, 'Times New Roman', serif;
+
+  --fs-micro: 0.75rem;   /* 12 */
+  --fs-small: 0.8125rem; /* 13 */
+  --fs-body: 0.9375rem;  /* 15 */
+  --fs-lead: 1.125rem;   /* 18 */
+  --fs-read: 1.75rem;    /* 28 readout */
+  --fs-hero: 2.75rem;    /* 44 primary readout */
+
+  --track-label: 0.08em;
+
+  /* space (4px base) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+
+  --gutter: clamp(12px, 2.4vw, 28px);
+  --rule: 1px;
+  --radius: 2px;
+  --tap: 44px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 120ms;
+  --t-med: 240ms;
+  --t-slow: 480ms;
+}
+
+:root,
+[data-theme='night'] {
+  color-scheme: dark;
+  --ink: #0e0d0b;
+  --bg: #0e0d0b;
+  --surface: #14130f;
+  --surface-2: #1b1a15;
+  --sunken: #0a0908;
+
+  --text: #ede6d8;
+  --text-2: #b8ae9c;   /* 8.4:1 on surface */
+  --text-3: #8d8473;   /* 4.8:1 on surface */
+  --rule-c: rgba(237, 230, 216, 0.12);
+  --rule-strong: rgba(237, 230, 216, 0.26);
+  --grid-c: rgba(237, 230, 216, 0.06);
+
+  --sun: #e8a33d;
+  --sun-dim: rgba(232, 163, 61, 0.16);
+  --sun-ink: #1a1206;
+
+  /* level ramp: quiet → extreme */
+  --lv0: #8fa98a;
+  --lv1: #c9b458;
+  --lv2: #e8a33d;
+  --lv3: #df7a35;
+  --lv4: #d1533a;
+  --lv5: #c23a4b;
+
+  --north: #7fa7b8;    /* northward Bz */
+  --south: #df7a35;    /* southward Bz, the geoeffective direction */
+  --model: #a99bd0;    /* our estimates, kept visibly different from observations */
+
+  --focus: #f4c46e;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='paper'] {
+  color-scheme: light;
+  --ink: #1c1915;
+  --bg: #ece5d6;
+  --surface: #f4efe4;
+  --surface-2: #e9e2d2;
+  --sunken: #e2dac8;
+
+  --text: #1c1915;
+  --text-2: #4a4338;   /* 8.9:1 */
+  --text-3: #6b6252;   /* 5.3:1 */
+  --rule-c: rgba(28, 25, 21, 0.14);
+  --rule-strong: rgba(28, 25, 21, 0.32);
+  --grid-c: rgba(28, 25, 21, 0.06);
+
+  --sun: #b56d0a;
+  --sun-dim: rgba(181, 109, 10, 0.14);
+  --sun-ink: #fff8ec;
+
+  --lv0: #4f7a49;
+  --lv1: #8a7612;
+  --lv2: #b56d0a;
+  --lv3: #b4531a;
+  --lv4: #a8341f;
+  --lv5: #9a1f35;
+
+  --north: #2f6a82;
+  --south: #b4531a;
+  --model: #5d4a9c;
+
+  --focus: #8a4b00;
+  --shadow: none;
+}

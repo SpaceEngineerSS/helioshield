@@ -1,0 +1,119 @@
+.transport {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s4);
+  margin-top: var(--s4);
+  padding-top: var(--s4);
+  border-top: var(--rule) solid var(--rule-c);
+}
+.transport__buttons,
+.transport__right {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+}
+.transport__play {
+  min-width: 96px;
+}
+.transport__track {
+  position: relative;
+  min-width: 0;
+}
+.transport__times {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-micro);
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+.transport__now {
+  color: var(--sun);
+}
+
+.transport__range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.transport__range::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(to right, var(--sun) var(--pct), var(--rule-strong) var(--pct));
+}
+.transport__range::-moz-range-track {
+  height: 2px;
+  background: var(--rule-strong);
+}
+.transport__range::-moz-range-progress {
+  height: 2px;
+  background: var(--sun);
+}
+.transport__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 22px;
+  margin-top: -10px;
+  background: var(--bg);
+  border: 1.5px solid var(--sun);
+  border-radius: 1px;
+}
+.transport__range::-moz-range-thumb {
+  width: 12px;
+  height: 20px;
+  background: var(--bg);
+  border: 1.5px solid var(--sun);
+  border-radius: 1px;
+}
+.transport__range:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+@media (pointer: coarse) {
+  .transport__range {
+    height: 44px;
+  }
+  .transport__range::-webkit-slider-thumb {
+    width: 22px;
+    height: 32px;
+    margin-top: -15px;
+  }
+}
+
+.transport__marks {
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: 4px;
+  height: 6px;
+  pointer-events: none;
+}
+.transport__mark {
+  position: absolute;
+  width: 1px;
+  height: 6px;
+  background: var(--text-2);
+}
+
+@media (max-width: 860px) {
+  .transport {
+    grid-template-columns: 1fr;
+    gap: var(--s3);
+  }
+  .transport__buttons {
+    order: 2;
+  }
+  .transport__right {
+    order: 3;
+    justify-content: space-between;
+  }
+  .transport__play-label {
+    display: none;
+  }
+  .transport__play {
+    min-width: 0;
+  }
+}
