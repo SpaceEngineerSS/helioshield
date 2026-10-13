@@ -13,7 +13,7 @@ export function Logo({ size = 28, title }: { size?: number; title?: string }) {
       aria-hidden={title ? undefined : true}
       aria-label={title}
     >
-      <circle cx="9" cy="16" r="6" fill="var(--sun)" />
+      <circle cx="9" cy="16" r="6" fill="var(--sun-disc)" />
       <path
         d="M24.5 5.5c-4.2 2.4-6.5 6.2-6.5 10.5s2.3 8.1 6.5 10.5"
         fill="none"

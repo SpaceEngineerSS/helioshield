@@ -69,7 +69,11 @@ export function makeFormat(lang: Lang, t: Dict): Format {
     date: (ms) => df.format(ms),
     fullDate: (ms) => fdf.format(ms),
     weekday: (ms) => wf.format(ms),
-    num: (v, d = 0) => nf(d).format(v),
+    num: (v, d = 0) => {
+      // Avoid "-0.0" when a small negative value rounds to zero.
+      const r = Number(v.toFixed(d));
+      return nf(d).format(r === 0 ? 0 : r);
+    },
     duration,
     relative: (ms, now = Date.now()) => {
       const diff = ms - now;

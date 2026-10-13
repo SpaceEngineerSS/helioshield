@@ -1,31 +1,19 @@
 ---
-name: Bug Report
-about: Create a report to help us improve HelioShield
-title: '[BUG] '
-labels: 'bug'
-assignees: ''
+name: Bug report
+about: Something looks wrong or broken
+labels: bug
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**What happened**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**What you expected**
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
- - OS: [e.g. Windows, macOS, Linux]
- - Browser [e.g. Chrome, Safari]
- - Version [e.g. 22]
+**Where**
+Live or replay (which event and time)? A link with `?event=…&t=…` is ideal.
 
-**Additional context**
-Add any other context about the problem here. (e.g. Are you running on Simulation Mode or Live Data?)
+**Browser and device**
+
+
+**Screenshot or console output**

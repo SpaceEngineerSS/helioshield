@@ -126,7 +126,7 @@
 .level__code {
   padding: 2px 8px;
   background: var(--lv);
-  color: var(--ink);
+  color: var(--chip-ink);
   font-weight: 600;
 }
 .level__name {

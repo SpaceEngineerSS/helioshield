@@ -127,13 +127,20 @@ export function kpSeries(payload: unknown): KpSeries {
   return out;
 }
 
-/** json/planetary_k_index_1m.json */
+/**
+ * json/planetary_k_index_1m.json
+ *
+ * At the start of each 3-hour synoptic period the product briefly reports 0
+ * until enough magnetometer data is in. Those placeholder zeros are dropped.
+ */
 export function kpNowcast(payload: unknown): KpNowcast {
   const out: KpNowcast = { t: [], kp: [] };
   for (const r of rows(payload)) {
     const t = time(r.time_tag);
     const kp = num(r.estimated_kp ?? r.kp_index);
     if (t == null || kp == null) continue;
+    const intoPeriod = t % (3 * 3_600_000);
+    if (kp === 0 && intoPeriod < 20 * MINUTE) continue;
     out.t.push(t);
     out.kp.push(kp);
   }

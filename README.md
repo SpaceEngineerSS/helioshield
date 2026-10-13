@@ -1,125 +1,93 @@
-# ☀️ HelioShield
+<p align="center">
+  <img src="public/og.png" alt="HelioShield" width="720">
+</p>
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![React](https://img.shields.io/badge/React-19-blue.svg)
-![Three.js](https://img.shields.io/badge/Three.js-WebGL-black.svg)
-![Status](https://img.shields.io/badge/Status-Research_Grade-success.svg)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+# HelioShield
 
-> **Lead Developer: Mehmet Gümüş** | [github.com/SpaceEngineerSS](https://github.com/SpaceEngineerSS)
+HelioShield is a space weather dashboard that reads the numbers straight from the instruments: the solar wind at L1, the Kp index, GOES X-rays, the CME catalogue, NOAA's bulletins and the OVATION aurora model. It also replays five historic geomagnetic storms from the original archives, so you can watch what Halloween 2003 or the May 2024 storm looked like minute by minute.
 
-**HelioShield** is a Real-time Solar Wind & Magnetohydrodynamic (MHD) Response Simulator. Designed as an operational "Digital Twin" of the Earth's magnetosphere, it ingests real-time telemetry from NOAA and NASA APIs to visualize heliospheric conditions, estimate geomagnetic response, and calculate terrestrial impacts.
+**Live:** [helioshield.vercel.app](https://helioshield.vercel.app) · English and Turkish · works offline once loaded
 
-🔗 **[Live Interactive Demo (Vercel)](https://helioshield.vercel.app)**
+![Dashboard](docs/assets/dashboard.png)
 
-> **Disclaimer: All model outputs are Simulation Estimates for research and educational purposes. This is not an official forecast.** Official NOAA data is displayed separately as a reference baseline.
+## Why I built it
 
----
+Most space weather pages show you either raw plots with no context or a single traffic-light number with no way to check it. I wanted something in between. It should show what the spacecraft measure, add a few well-known models on top, and say clearly which numbers are measurements, which come from NOAA, and which are my own estimates.
 
-## 🌌 Core Features
+HelioShield is not a forecast service. When it matters, use [NOAA SWPC](https://www.swpc.noaa.gov/).
 
-- **Real-Time Telemetry** — Live monitoring of solar wind speed, plasma density, and IMF ($B_z$, $B_t$) parameters from DSCOVR/ACE via NOAA SWPC.
-- **Geomagnetic Kp Estimation** — Computes magnetospheric energy transfer using the Newell coupling function, mapped to the Kp index via log-linear calibration.
-- **Dynamic 3D Simulation** — A highly optimized, lazy-loaded Three.js WebGL scene visualizes the Sun-Earth L1 Lagrange point, solar wind particle flows, and Kp-reactive auroral halow.
-- **CME Propagation (DBM)** — Calculates Coronal Mass Ejection (CME) transit times from the Sun to Earth using a Drag-Based Model integrated with a 4th-order Runge-Kutta (RK4) method.
-- **Operational Resilience (Digital Twin)** — Deeply integrated with a `SimulationOrchestrator` that monitors rate limits and network drops. If APIs fail (e.g., HTTP 429), the system injects highly-accurate historical presets into the active cache, maintaining a seamless, uninterrupted simulation.
-- **Magnetospheric Hysteresis** — Scientifically models the Earth's Ring Current recovery. When a severe geomagnetic storm subsides ($B_z > -5\text{nT}$), the simulation enters a 15-minute hysteresis period, reflecting the gradual dissipation of atmospheric ionization rather than instantly snapping back to normal.
-- **Impact Assessment** — Real-time analytics on auroral boundaries, satellite drag risks, HF radio absorption, and Geomagnetically Induced Currents (GIC).
+## What's on the screen
 
----
+| Panel | What it shows | Where it comes from |
+|---|---|---|
+| Conditions | Kp, G/R/S scales, wind speed, density, Bz, Bt, magnetopause distance | NOAA nowcast and scales; Shue 1998 for the magnetopause |
+| Sun to Earth | 3D view of the wind, the magnetopause, IMF direction at L1, CME fronts in flight | Live readings, drag-based CME model |
+| Measurements | 24 h of wind, field, Kp (observed, estimated, forecast and our model), X-rays | NOAA RTSW, Kp products, GOES |
+| CMEs | Earth-bound CMEs with our arrival window next to CCMC's ENLIL run | NASA CCMC DONKI |
+| Aurora | Chance of seeing it from your location, dark-sky window, polar map | NOAA OVATION Prime, NOAA Kp forecast |
+| Bulletins | NOAA alerts, warnings and watches, with optional Kp notifications | NOAA SWPC |
+| Flares, outlook | Last 7 days of flares with radio-blackout level; 3-day Kp and scale outlook | GOES flare list, NOAA forecast |
 
-## 🚀 Quick Start
+Replays swap every panel over to archived data (OMNI 1-minute solar wind, GFZ definitive Kp, SYM-H, DONKI CMEs and flares). You can play them, scrub them, and share a link to a moment:
 
-Ensure you have Node.js 18+ installed.
+```
+https://helioshield.vercel.app/?event=gannon-2024&t=2024-05-11T02:00Z
+```
+
+![Replay of the Gannon storm](docs/assets/replay-gannon.png)
+
+<p align="center">
+  <img src="docs/assets/mobile.png" alt="Phone layout" width="260">
+  &nbsp;&nbsp;
+  <img src="docs/assets/paper-tr.png" alt="Paper theme in Turkish" width="560">
+</p>
+
+## How good are the models?
+
+I tested both models against data they were not tuned on wherever I could. The full numbers are in [docs/validation.md](docs/validation.md).
+
+- **Kp nowcast.** Fitted on 2000–2019 OMNI data and tested on 2020–2025: RMSE 0.69, 87% of 3-hour intervals within ±1. It saturates in the biggest storms and runs about one Kp high in them.
+- **CME arrival (drag-based model).** Across seven well-observed CMEs the mean error is about 7 h. That is in line with published DBM results and close to CCMC's ENLIL on the same events. The parameters were picked on these same events, so treat it as a sanity check rather than an independent test.
+
+## Running it
+
+You need Node 20.19 or newer.
 
 ```bash
-# Clone the repository
 git clone https://github.com/SpaceEngineerSS/helioshield.git
 cd helioshield
-
-# Install dependencies
 npm install
-
-# Start the development server (http://localhost:5173)
 npm run dev
-
-# Build for production
-npm run build
 ```
 
----
+No API keys are needed. Every source is public, and DONKI moved to a keyless endpoint in September 2026.
 
-## 🏛️ System Architecture
+| Script | What it does |
+|---|---|
+| `npm run dev` | Dev server. `/api/feed` runs the same edge code as production. |
+| `npm run check` | Type check, lint, tests and production build. Run it before a PR. |
+| `npm run smoke` | Builds, starts a preview, and drives it in Chrome: live data, language switch, replay, phone layout. |
+| `npm run archive` | Re-downloads the replay archives from OMNI, GFZ and DONKI. |
+| `npm run fit:kp` | Refits the Kp model coefficients and prints train/test error. |
+| `npm run icons` | Redraws icons and the social card from the logo geometry. |
+| `npm run screenshots` | Retakes the screenshots in this README from a running server. |
 
-HelioShield is designed as a fully client-side, zero-backend application to maximize portability and deployment simplicity. 
+## Deploying
 
-```text
-src/
-├── config/           # Constants, thresholds, data source URLs
-├── domain/           # Zod-validated data models and TypeScript enums
-├── lib/              # Core Mathematics (RK4, Hysteresis), time/units, caching
-├── services/
-│   ├── adapters/     # NOAA Solar Wind, Kp, GOES X-ray, NASA DONKI parsers
-│   ├── orchestrator/ # SimulationOrchestrator for Hysteresis & Storm Protocols
-│   └── data/         # DataAssimilationEngine for fallback injection
-├── hooks/            # useSpaceWeather, useTimeSlicedData
-└── components/
-    ├── scene/        # 3D SunEarthScene, shaders (Aurora, Sun)
-    └── panels/       # Dashboard UI elements
-```
+The repo deploys to Vercel as is. `api/feed.ts` becomes an edge function that fetches each upstream once per cache period for all visitors. That keeps the client download small: about 70 kB a minute of solar wind instead of 4 MB. Cache and security headers live in `vercel.json`. Nothing needs configuring.
 
-### 🛡️ Resilience & Simulation Fallback
-If API rate limits are reached, the `DataAssimilationEngine` operates as a localized singleton cache. It intercepts the HTTP 403/429 errors and broadcasts a `simulation-mode` event. The UI (`App.tsx`) catches this and seamlessly transitions the state to load high-fidelity historical data presets (e.g., the May 2024 G4 storm). A subtle `HISTORICAL DATA - SIMULATION MODE` watermark appears, allowing the application to function continuously as a demonstrative tool.
+On other hosts the static build still works. Without the edge function, the browser worker fetches NOAA and NASA directly and runs the same transforms itself.
 
----
+## Documentation
 
-## 📡 Data Sources
+- [Architecture](docs/architecture.md): how data gets from NOAA to the screen, and why it is shaped that way
+- [Scientific model](docs/scientific-model.md): every formula, its source, and where it lives in the code
+- [Data sources](docs/data-sources.md): endpoints, cadences, and what each one is used for
+- [Validation](docs/validation.md): how the models compare to observations
+- [Design](docs/design.md): the visual language and the rules behind it
 
-| Source | Endpoint | Data Provided |
-|---|---|---|
-| NOAA SWPC Plasma | `services.swpc.noaa.gov/.../plasma-7-day.json` | Solar wind speed, density, temperature |
-| NOAA SWPC Mag | `services.swpc.noaa.gov/.../mag-7-day.json` | IMF $B_x$, $B_y$, $B_z$, $B_t$ |
-| NOAA SWPC Kp | `services.swpc.noaa.gov/.../noaa-planetary-k-index.json` | Official measured Kp index |
-| GOES X-ray | `services.swpc.noaa.gov/.../xrays-7-day.json` | X-ray flux for solar flare detection |
-| NASA DONKI | `api.nasa.gov/DONKI/` | CME event tracking, flare associations |
+## Credits
 
-> **Note:** The NASA API utilizes a `DEMO_KEY` by default which is subject to aggressive rate-limiting (30 requests/hour). Supply your own key via `VITE_NASA_API_KEY` in a `.env` file for production deployments.
+Data from NOAA's Space Weather Prediction Center, NASA's Community Coordinated Modeling Center (DONKI), NASA GSFC's Space Physics Data Facility (OMNI), and GFZ Potsdam (Kp, CC BY 4.0). The models are from published work, cited in [docs/scientific-model.md](docs/scientific-model.md).
 
----
-
-## 🔬 Scientific Methodology
-
-HelioShield utilizes multiple peer-reviewed physics models:
-
-### 1. Kinematics: Drag-Based Model (DBM)
-The transit of CMEs is calculated using the Drag-Based Model (Vršnak et al., 2013). The acceleration is defined as:
-$$ a = -\gamma (v - w) |v - w| $$
-The model uses a 4th-order Runge-Kutta (RK4) numerical integrator with an adaptive $10^{-6}$ tolerance for extreme precision.
-
-### 2. Energy Transfer: Newell Coupling Function
-The rate of magnetic flux opening at the magnetopause, driving geomagnetic storms, is quantified via the Newell Coupling Function (Newell et al., 2007):
-$$ \frac{d\Phi}{dt} = v^{4/3} B_T^{2/3} \sin\left(\frac{\theta_c}{2}\right)^{8/3} $$
-
-### 3. Magnetopause Deformation
-The physical boundary of the Earth's magnetosphere is dynamically deformed using the procedural model from Shue et al., 1998:
-$$ r = r_0 \left( \frac{2}{1 + \cos(\theta)} \right)^\alpha $$
-
-### 4. Geomagnetically Induced Currents (GIC)
-To estimate the surface electric field $\mathbf{E}$ driving GICs, the engine implements the plane-wave approximation method by Lehtinen and Pirjola (1985). The Fast Fourier Transform (FFT) necessary for this frequency-domain calculation is offloaded to a dedicated Web Worker (`GICWorker.ts`) to ensure the main UI thread remains completely unblocked at 60 FPS.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from researchers, software engineers, and physics enthusiasts! 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Written by [Mehmet Gümüş](https://github.com/SpaceEngineerSS). MIT licensed; see [LICENSE](LICENSE). Contributions are welcome; [CONTRIBUTING.md](CONTRIBUTING.md) has the details.

@@ -66,20 +66,23 @@
   --sun: #e8a33d;
   --sun-dim: rgba(232, 163, 61, 0.16);
   --sun-ink: #1a1206;
+  /* The Sun itself, in drawings. Not used for text. */
+  --sun-disc: #e8a33d;
 
   /* level ramp: quiet → extreme */
   --lv0: #8fa98a;
   --lv1: #c9b458;
   --lv2: #e8a33d;
   --lv3: #df7a35;
-  --lv4: #d1533a;
-  --lv5: #c23a4b;
+  --lv4: #e2694c;
+  --lv5: #e45b70;
 
   --north: #7fa7b8;    /* northward Bz */
   --south: #df7a35;    /* southward Bz, the geoeffective direction */
   --model: #a99bd0;    /* our estimates, kept visibly different from observations */
 
   --focus: #f4c46e;
+  --chip-ink: #0e0d0b;
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
@@ -98,21 +101,23 @@
   --rule-strong: rgba(28, 25, 21, 0.32);
   --grid-c: rgba(28, 25, 21, 0.06);
 
-  --sun: #b56d0a;
-  --sun-dim: rgba(181, 109, 10, 0.14);
+  --sun: #8f5508;
+  --sun-dim: rgba(143, 85, 8, 0.12);
   --sun-ink: #fff8ec;
+  --sun-disc: #e39a2f;
 
-  --lv0: #4f7a49;
-  --lv1: #8a7612;
-  --lv2: #b56d0a;
-  --lv3: #b4531a;
+  --lv0: #3d6738;
+  --lv1: #6a5a0a;
+  --lv2: #8f5508;
+  --lv3: #98420f;
   --lv4: #a8341f;
   --lv5: #9a1f35;
 
-  --north: #2f6a82;
-  --south: #b4531a;
+  --north: #285c72;
+  --south: #98420f;
   --model: #5d4a9c;
 
   --focus: #8a4b00;
+  --chip-ink: #fff8ec;
   --shadow: none;
 }

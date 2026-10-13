@@ -21,7 +21,7 @@ function readSceneColors(): SceneColors {
     text: v('--text'),
     text3: v('--text-3'),
     rule: v('--rule-strong'),
-    sun: v('--sun'),
+    sun: v('--sun-disc'),
     north: v('--north'),
     south: v('--south'),
     model: v('--model'),

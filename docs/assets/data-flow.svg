@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#b8ae9c"/>
+    </marker>
+    <style>
+      .t { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 13px; fill: #ede6d8; }
+      .s { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 11.5px; fill: #8d8473; }
+      .m { font-family: IBM Plex Mono, ui-monospace, monospace; font-size: 11px; fill: #b8ae9c; }
+      .h { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.2px; fill: #e8a33d; }
+      .box { fill: #1b1a15; stroke: rgba(237,230,216,.26); }
+      .hot { fill: #1b1a15; stroke: #e8a33d; }
+      .ln { stroke: #b8ae9c; stroke-width: 1.2; fill: none; marker-end: url(#a); }
+      .dash { stroke-dasharray: 4 4; }
+    </style>
+  </defs>
+  <rect width="960" height="520" fill="#0e0d0b"/>
+  <rect x="16.5" y="16.5" width="927" height="487" fill="#14130f" stroke="rgba(237,230,216,.14)"/>
+  <path d="M16.5 26V16.5H26M943.5 494V503.5H934" fill="none" stroke="rgba(237,230,216,.4)"/>
+  <text x="36" y="48" class="t" font-weight="600" letter-spacing="1.2">HOW DATA MOVES THROUGH HELIOSHIELD</text>
+
+  <!-- column labels -->
+  <text x="40" y="86" class="h">01 · SOURCES</text>
+  <text x="300" y="86" class="h">02 · EDGE</text>
+  <text x="520" y="86" class="h">03 · BROWSER</text>
+  <text x="760" y="86" class="h">04 · SCREEN</text>
+
+  <!-- sources -->
+  <rect x="40" y="104" width="200" height="118" class="box"/>
+  <text x="54" y="128" class="t">NOAA SWPC</text>
+  <text x="54" y="148" class="m">rtsw wind + mag, 1 min</text>
+  <text x="54" y="164" class="m">Kp, Kp 1-min, scales</text>
+  <text x="54" y="180" class="m">GOES X-rays, flare list</text>
+  <text x="54" y="196" class="m">OVATION aurora</text>
+  <text x="54" y="212" class="m">bulletins</text>
+
+  <rect x="40" y="236" width="200" height="54" class="box"/>
+  <text x="54" y="260" class="t">NASA CCMC DONKI</text>
+  <text x="54" y="278" class="m">CMEs + ENLIL runs</text>
+
+  <!-- edge -->
+  <rect x="290" y="150" width="180" height="100" class="hot"/>
+  <text x="304" y="174" class="t">/api/feed?id=…</text>
+  <text x="304" y="194" class="s">fetch, trim, normalise</text>
+  <text x="304" y="212" class="s">CDN cache per feed</text>
+  <text x="304" y="232" class="m">4 MB → 70 kB per minute</text>
+
+  <path d="M240 163H290" class="ln"/>
+  <path d="M240 263H262V225H290" class="ln"/>
+
+  <!-- browser -->
+  <rect x="520" y="104" width="190" height="78" class="box"/>
+  <text x="534" y="128" class="t">feed worker</text>
+  <text x="534" y="148" class="s">off the main thread</text>
+  <text x="534" y="166" class="s">falls back to upstream</text>
+
+  <path d="M470 175H492V143H520" class="ln"/>
+  <path d="M240 120H500V128H520" class="ln dash"/>
+  <text x="300" y="114" class="s">direct fallback, same transforms</text>
+
+  <rect x="520" y="200" width="190" height="56" class="box"/>
+  <text x="534" y="224" class="t">IndexedDB</text>
+  <text x="534" y="242" class="s">last good copy, offline start</text>
+
+  <rect x="520" y="274" width="190" height="94" class="hot"/>
+  <text x="534" y="298" class="t">store → Dataset</text>
+  <text x="534" y="318" class="s">Kp model, DBM, CME cones</text>
+  <text x="534" y="336" class="s">Snapshot at the cursor</text>
+  <text x="534" y="354" class="m">binary search, no copies</text>
+
+  <path d="M615 182V200" class="ln"/>
+  <path d="M615 256V274" class="ln"/>
+
+  <!-- archive -->
+  <rect x="40" y="330" width="200" height="88" class="box"/>
+  <text x="54" y="354" class="t">Archives</text>
+  <text x="54" y="374" class="m">OMNI 1-min · SYM-H</text>
+  <text x="54" y="390" class="m">GFZ definitive Kp</text>
+  <text x="54" y="406" class="m">DONKI CMEs, flares, shocks</text>
+
+  <rect x="290" y="340" width="180" height="68" class="box"/>
+  <text x="304" y="364" class="t">fetch-archive.ts</text>
+  <text x="304" y="384" class="m">public/archive/*.json</text>
+  <text x="304" y="400" class="s">built once, replayed offline</text>
+
+  <path d="M240 374H290" class="ln"/>
+  <path d="M470 374H495V330H520" class="ln"/>
+
+  <!-- screen -->
+  <rect x="760" y="104" width="160" height="264" class="box"/>
+  <text x="774" y="128" class="t">panels</text>
+  <text x="774" y="152" class="s">conditions + scales</text>
+  <text x="774" y="172" class="s">3D Sun–Earth view</text>
+  <text x="774" y="192" class="s">uPlot charts</text>
+  <text x="774" y="212" class="s">CME tracker</text>
+  <text x="774" y="232" class="s">aurora map</text>
+  <text x="774" y="252" class="s">bulletins, outlook</text>
+  <text x="774" y="276" class="s">same components for</text>
+  <text x="774" y="292" class="s">live and replay</text>
+  <text x="774" y="326" class="m">cursor: 24 Hz store</text>
+  <text x="774" y="342" class="m">3D: on demand only</text>
+
+  <path d="M710 321H735V236H760" class="ln"/>
+
+  <text x="40" y="456" class="s">Solid lines run on every refresh. The dashed line is used only when the edge feed is unreachable</text>
+  <text x="40" y="474" class="s">(local preview, outage). The archive path runs once, when the archive files are built.</text>
+</svg>

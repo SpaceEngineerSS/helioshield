@@ -23,7 +23,6 @@ interface Shot {
 
 const SHOTS: Shot[] = [
   { name: 'dashboard', path: '/', width: 1440, height: 900 },
-  { name: 'dashboard-full', path: '/', width: 1440, height: 900, full: true },
   { name: 'replay-gannon', path: '/?event=gannon-2024&t=2024-05-11T02:00Z', width: 1440, height: 900, full: true },
   { name: 'paper-tr', path: '/?lang=tr', width: 1440, height: 900, theme: 'paper', lang: 'tr' },
   { name: 'mobile', path: '/', width: 390, height: 844 },
@@ -36,6 +35,7 @@ async function main() {
       viewport: { width: s.width, height: s.height },
       deviceScaleFactor: s.width < 600 ? 3 : 1,
       colorScheme: 'dark',
+      locale: 'en-US',
       isMobile: s.width < 600,
       hasTouch: s.width < 600,
     });

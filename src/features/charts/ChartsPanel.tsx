@@ -57,19 +57,17 @@ function overlayPlugin(c: ChartColors, getD: () => Dataset, labels: boolean, t: 
           ctx.stroke();
         }
 
-        // Model arrival windows for Earth-bound CMEs.
+        // Model arrival time for each Earth-bound CME, as a short dashed line from the top.
         for (const cme of d.cmes) {
           if (!cme.dbm) continue;
-          const a = x(cme.dbm.earliest);
-          const b = x(cme.dbm.latest);
-          if (b < left || a > left + width) continue;
-          ctx.fillStyle = withAlpha(c.model, 0.05);
-          ctx.fillRect(a, top, b - a, height);
-          ctx.strokeStyle = withAlpha(c.model, 0.7);
+          const ax = x(cme.dbm.arrival);
+          if (ax < left || ax > left + width) continue;
+          ctx.strokeStyle = withAlpha(c.model, 0.8);
+          ctx.lineWidth = px;
           ctx.setLineDash([3 * px, 3 * px]);
           ctx.beginPath();
-          ctx.moveTo(x(cme.dbm.arrival), top);
-          ctx.lineTo(x(cme.dbm.arrival), top + height);
+          ctx.moveTo(ax, top);
+          ctx.lineTo(ax, top + height);
           ctx.stroke();
           ctx.setLineDash([]);
         }

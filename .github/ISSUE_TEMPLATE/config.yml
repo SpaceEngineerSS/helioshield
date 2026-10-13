@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Official space weather forecasts
+    url: https://www.swpc.noaa.gov/
+    about: For decisions that matter, use NOAA SWPC. HelioShield is not an official forecast.

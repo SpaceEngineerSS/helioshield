@@ -40,6 +40,8 @@ export function Conditions() {
             ? t.readouts.kpObserved
             : t.readouts.kpDefinitive;
 
+  // Direction is judged on the displayed (rounded) value, so "-0.0" never reads as southward.
+  const bz = s.bz == null ? null : Math.round(s.bz * 10) / 10;
   const standoff = s.magnetopause ? magnetopauseRadius(s.magnetopause, 0) : null;
 
   return (
@@ -108,8 +110,8 @@ export function Conditions() {
               unit="nT"
               empty={t.readouts.noData}
               instant={playing}
-              color={s.bz == null ? undefined : s.bz < 0 ? 'var(--south)' : 'var(--north)'}
-              sub={s.bz == null ? null : s.bz < 0 ? t.readouts.southward : t.readouts.northward}
+              color={bz == null || bz === 0 ? undefined : bz < 0 ? 'var(--south)' : 'var(--north)'}
+              sub={bz == null || bz === 0 ? null : bz < 0 ? t.readouts.southward : t.readouts.northward}
             />
           </div>
           <div className="cond__cell">

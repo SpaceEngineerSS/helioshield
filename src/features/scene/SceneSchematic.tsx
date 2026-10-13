@@ -54,7 +54,7 @@ export function SceneSchematic({ snapshot }: { snapshot: Snapshot }) {
         );
       })}
 
-      <circle cx={sx(SUN_X)} cy={cy} r={SUN_R * k} fill="var(--sun)" />
+      <circle cx={sx(SUN_X)} cy={cy} r={SUN_R * k} fill="var(--sun-disc)" />
       <text x={sx(SUN_X)} y={cy + SUN_R * k + 18} textAnchor="middle" className="scene__svgtext">
         {t.scene.sun}
       </text>

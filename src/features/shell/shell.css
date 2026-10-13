@@ -141,7 +141,7 @@
   text-align: center;
   font-size: var(--fs-micro);
   font-weight: 600;
-  color: var(--ink);
+  color: var(--chip-ink);
   border-radius: var(--radius);
   padding: 2px 0;
 }

@@ -77,6 +77,26 @@ function Pacer({ animate, fps, onSlow }: { animate: boolean; fps: number; onSlow
   return null;
 }
 
+/**
+ * Keep the whole Sun–Earth line in frame for any panel shape: move the camera
+ * along its current view direction until the line fits horizontally.
+ */
+function FitCamera() {
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
+  const size = useThree((s) => s.size);
+  const invalidate = useThree((s) => s.invalidate);
+  useEffect(() => {
+    const aspect = size.width / Math.max(1, size.height);
+    const halfWidth = (EARTH_X + 3.2 - (SUN_X - SUN_R - 0.6)) / 2;
+    const tanH = Math.tan(((camera.fov / 2) * Math.PI) / 180);
+    const d = Math.min(30, Math.max(9, halfWidth / (tanH * aspect) + 1));
+    camera.position.setLength(d);
+    camera.updateProjectionMatrix();
+    invalidate();
+  }, [camera, size, invalidate]);
+  return null;
+}
+
 function Controls() {
   const camera = useThree((s) => s.camera);
   const dom = useThree((s) => s.gl.domElement);
@@ -85,8 +105,8 @@ function Controls() {
     const c = new OrbitControls(camera, dom);
     c.enablePan = false;
     c.enableDamping = false;
-    c.minDistance = 8;
-    c.maxDistance = 22;
+    c.minDistance = 7;
+    c.maxDistance = 32;
     c.minPolarAngle = Math.PI * 0.12;
     c.maxPolarAngle = Math.PI * 0.62;
     c.target.set(0, 0, 0);
@@ -488,21 +508,51 @@ function L1Marker({ color }: { color: string }) {
 
 // ─── CMEs ────────────────────────────────────────────────────────────────────
 
+/**
+ * A CME front drawn as the rim of its cone plus a few arcs over the cap,
+ * so several fronts can overlap without turning into a mesh.
+ */
+function cmeFrontGeometry(halfAngle: number): THREE.BufferGeometry {
+  const a = (Math.min(70, Math.max(10, halfAngle)) * Math.PI) / 180;
+  const pts: number[] = [];
+  const seg = 48;
+  // Rim: circle at polar angle a around +y.
+  for (let i = 0; i < seg; i++) {
+    const p0 = (i / seg) * Math.PI * 2;
+    const p1 = ((i + 1) / seg) * Math.PI * 2;
+    pts.push(Math.sin(a) * Math.cos(p0), Math.cos(a), Math.sin(a) * Math.sin(p0));
+    pts.push(Math.sin(a) * Math.cos(p1), Math.cos(a), Math.sin(a) * Math.sin(p1));
+  }
+  // Four meridian arcs from the rim over the apex.
+  for (let k = 0; k < 4; k++) {
+    const phi = (k / 4) * Math.PI * 2;
+    const steps = 12;
+    for (let i = 0; i < steps; i++) {
+      const t0 = a * (1 - i / steps);
+      const t1 = a * (1 - (i + 1) / steps);
+      pts.push(Math.sin(t0) * Math.cos(phi), Math.cos(t0), Math.sin(t0) * Math.sin(phi));
+      pts.push(Math.sin(t1) * Math.cos(phi), Math.cos(t1), Math.sin(t1) * Math.sin(phi));
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  return g;
+}
+
 function CmeShell({ au, halfAngle, lat, lon, color }: { au: number; halfAngle: number; lat: number | null; lon: number | null; color: string }) {
-  const geom = useMemo(
-    () => new THREE.SphereGeometry(1, 18, 3, 0, Math.PI * 2, 0, (Math.min(70, Math.max(10, halfAngle)) * Math.PI) / 180),
-    [halfAngle],
-  );
+  const geom = useMemo(() => cmeFrontGeometry(halfAngle), [halfAngle]);
   useEffect(() => () => geom.dispose(), [geom]);
   const quat = useMemo(() => {
     const [x, y, z] = cmeDirection(lat, lon);
     return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(x, y, z));
   }, [lat, lon]);
   const r = Math.max(0.01, auToX(au) - SUN_X);
+  // Fade the front out as it passes Earth.
+  const opacity = au < 0.95 ? 0.7 : Math.max(0, 0.7 * (1.1 - au) / 0.15);
   return (
-    <mesh geometry={geom} position={[SUN_X, 0, 0]} quaternion={quat} scale={[r, r, r]}>
-      <meshBasicMaterial color={color} wireframe transparent opacity={0.22} depthWrite={false} />
-    </mesh>
+    <lineSegments geometry={geom} position={[SUN_X, 0, 0]} quaternion={quat} scale={[r, r, r]}>
+      <lineBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
+    </lineSegments>
   );
 }
 
@@ -542,6 +592,7 @@ export default function Scene3D({ snapshot, tier, colors, animate, labels, onSlo
       style={{ touchAction: 'pan-y' }}
     >
       <Pacer animate={animate} fps={spec.fps} onSlow={onSlow} />
+      <FitCamera />
       <Controls />
       <Sun color={colors.sun} granulation={spec.granulation} animate={animate} />
       <Axis color={colors.text3} />

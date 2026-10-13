@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440">
+  <defs>
+    <style>
+      .t { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 13px; fill: #ede6d8; }
+      .s { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 11.5px; fill: #8d8473; }
+      .m { font-family: IBM Plex Mono, ui-monospace, monospace; font-size: 12px; fill: #b8ae9c; }
+      .n { font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 15px; fill: #b8ae9c; }
+      .h { font-family: IBM Plex Sans, system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.2px; fill: #e8a33d; }
+    </style>
+  </defs>
+  <rect width="960" height="440" fill="#0e0d0b"/>
+  <rect x="16.5" y="16.5" width="927" height="407" fill="#14130f" stroke="rgba(237,230,216,.14)"/>
+  <path d="M16.5 26V16.5H26M943.5 414V423.5H934" fill="none" stroke="rgba(237,230,216,.4)"/>
+  <text x="36" y="48" class="t" font-weight="600" letter-spacing="1.2">SUN, L1, EARTH · WHAT EACH MODEL LOOKS AT</text>
+
+  <!-- axis ruler: 0..1 AU -->
+  <line x1="120" y1="230" x2="860" y2="230" stroke="rgba(237,230,216,.3)"/>
+  <g stroke="rgba(237,230,216,.3)">
+    <line x1="194" y1="224" x2="194" y2="236"/><line x1="268" y1="224" x2="268" y2="236"/><line x1="342" y1="224" x2="342" y2="236"/>
+    <line x1="416" y1="224" x2="416" y2="236"/><line x1="490" y1="218" x2="490" y2="242"/><line x1="564" y1="224" x2="564" y2="236"/>
+    <line x1="638" y1="224" x2="638" y2="236"/><line x1="712" y1="224" x2="712" y2="236"/><line x1="786" y1="224" x2="786" y2="236"/>
+  </g>
+  <text x="490" y="260" class="m" text-anchor="middle">0.5 AU</text>
+  <text x="878" y="260" class="m" text-anchor="middle">1 AU</text>
+
+  <!-- sun -->
+  <circle cx="120" cy="230" r="34" fill="#e8a33d"/>
+  <text x="120" y="290" class="t" text-anchor="middle">Sun</text>
+
+  <!-- CME cone -->
+  <path d="M120 230L430 120M120 230L430 300" stroke="#a99bd0" stroke-dasharray="3 4" fill="none"/>
+  <path d="M430 120A330 330 0 0 1 430 300" stroke="#a99bd0" stroke-width="2" fill="none"/>
+  <text x="300" y="150" class="s">half-angle ω from DONKI</text>
+  <text x="446" y="124" class="m">front r(t)</text>
+
+  <!-- L1 -->
+  <rect x="800" y="225" width="10" height="10" fill="none" stroke="#ede6d8" transform="rotate(45 805 230)"/>
+  <text x="790" y="208" class="t" text-anchor="middle">L1</text>
+  <text x="790" y="292" class="s" text-anchor="middle">DSCOVR / ACE</text>
+  <text x="790" y="308" class="s" text-anchor="middle">~1 h upstream</text>
+
+  <!-- earth + magnetopause -->
+  <path d="M880 170C858 182 850 205 850 230C850 255 858 278 880 290" stroke="#ede6d8" stroke-dasharray="2 3" fill="none"/>
+  <circle cx="878" cy="230" r="9" fill="#ede6d8"/>
+  <text x="878" y="208" class="t" text-anchor="middle">Earth</text>
+  <text x="850" y="330" class="s" text-anchor="middle">r₀ ≈ 6–11 Rₑ</text>
+
+  <!-- annotations -->
+  <text x="40" y="358" class="h">CME · DRAG-BASED MODEL</text>
+  <text x="40" y="380" class="m">dv/dt = −γ (v − w) |v − w|</text>
+  <text x="40" y="398" class="s">γ = 0.1×10⁻⁷ km⁻¹, closed-form solution</text>
+
+  <text x="360" y="358" class="h">L1 → KP · NEWELL COUPLING</text>
+  <text x="360" y="380" class="m">dΦ/dt = v⁴ᐟ³ B_T²ᐟ³ sin⁸ᐟ³(θ/2)</text>
+  <text x="360" y="398" class="s">3-hour mean, fitted on 2000–2019</text>
+
+  <text x="680" y="358" class="h">MAGNETOPAUSE · SHUE 1998</text>
+  <text x="680" y="380" class="m">r = r₀ (2 / (1+cos θ))^α</text>
+  <text x="680" y="398" class="s">from Bz and dynamic pressure</text>
+
+  <text x="40" y="88" class="n">Not to scale. L1 sits 1% of the way back from Earth.</text>
+</svg>

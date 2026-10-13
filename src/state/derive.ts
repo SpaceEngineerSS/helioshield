@@ -237,7 +237,7 @@ export function snapshotAt(d: Dataset, t: number): Snapshot {
   for (const track of d.cmes) {
     if (!isEarthBound(track) || track.speed == null || track.launch > t) continue;
     const au = frontPositionAu(track.launch, track.speed, t, track.ambient, track.r0);
-    if (au != null && au < 1.15) cmesInFlight.push({ track, au });
+    if (au != null && au < 1.1) cmesInFlight.push({ track, au });
   }
 
   return {
